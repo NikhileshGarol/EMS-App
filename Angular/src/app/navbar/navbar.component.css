@@ -1,0 +1,36 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #2e82db;
+  color: #fff;
+  padding-right: 1rem;
+  padding-left: 1rem;
+}
+.navbar .logo {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+.navbar nav a {
+  color: #fff;
+  margin-left: 1rem;
+  text-decoration: none;
+}
+.navbar nav a.active {
+  text-decoration: underline;
+  }
+  
+  .header-name {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .avatar-img {
+  width: 37px;
+  height: 37px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ccc;
+  }

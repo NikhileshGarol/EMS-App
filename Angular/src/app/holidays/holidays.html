@@ -1,0 +1,33 @@
+<div class="container">
+    <!-- <div style="display: flex; flex-direction: column; align-items: flex-end; padding: 10px;" class="col-12"></div> -->
+    <div class="center row row-cols-2 row-cols-lg-4 g-2 g-lg-3">
+        @for (month of allMonths; track $index) {
+        <div class="card-container col">
+            <h5 class="card-title">{{ month }}</h5>
+            @if (holidayList && holidayList[month] && holidayList[month].length > 0) {
+            <ng-container>
+                @for (holiday of holidayList[month]; track $index) {
+                <div class="col-12 card-content">
+                    <div style="display: flex; flex-direction: column" class="col-2">
+                        <span class="content-date">{{ holiday.date | date: 'dd' }}</span>
+                        <span style="font-size: 14px; color: rgb(170, 168, 168);">{{ holiday.date | date: 'EEE'
+                            }}</span>
+                    </div>
+                    <div style="font-size: 16px; color: rgb(154, 152, 152);" class="col-10">{{ holiday.name }}</div>
+                </div>
+                }
+            </ng-container>
+            } @else {
+            <ng-container *ngTemplateOutlet="noHoliday"></ng-container>
+            }
+
+            <ng-template #noHoliday>
+                <div class="col-12 no-data">
+                    <p class="text-muted light-grey">No holidays</p>
+                </div>
+            </ng-template>
+        </div>
+        }
+
+    </div>
+</div>

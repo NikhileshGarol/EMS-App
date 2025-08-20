@@ -1,0 +1,50 @@
+.example-card {
+    max-width: 400px;
+    border-radius: 10px;
+  }
+  
+  .example-card-footer {
+    padding: 16px;
+  }
+  
+  .review {
+    height: 50vh;
+    width: 100%;
+    .review-img {
+    width: 100%;
+    height: 60%; 
+    object-fit: contain;
+    display: block;
+    transform: rotate(-5deg); 
+  }
+  }
+  .details {
+    height: 30vh;
+  }
+  .cards {
+    border: 1px solid lightgray;
+    border-radius: 4px;
+    padding: 10px;
+    margin: 10px;
+    background-color: white;
+    box-shadow: 0 0.25rem 1rem rgba(0, 0, 0, 0.08);
+  }
+  
+  .space-between {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .sign-out-btn {
+    background-color: rgb(77, 132, 215);
+    color: white;
+  }
+
+  .card-title {
+    font-weight: 600 !important;
+    color: rgb(107, 103, 103);
+    font-size: 16px;
+    padding-bottom: 10px;
+  }
