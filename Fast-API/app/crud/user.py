@@ -193,7 +193,7 @@ def get_users(
         # )
         # department = (
         #     DeptResponse(id=user.department.id, name=user.department.name)
-        #     if user.department
+        #     if user.roles
         #     else None
         # )
 

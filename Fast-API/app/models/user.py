@@ -21,6 +21,7 @@ class User(Base):
     phone = Column(String(15), unique=True, index=True)
     firstName = Column(String(100))
     lastName = Column(String(100))
+    profile_image = Column(String(255), nullable=True)  # Path to profile image
     dob = Column(Date, nullable=False)
     doj = Column(Date, nullable=False)
     createdAt = Column(DateTime, default=func.now(), nullable=False)

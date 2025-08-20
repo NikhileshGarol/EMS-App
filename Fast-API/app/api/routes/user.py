@@ -11,6 +11,7 @@ from app.crud.user import (
     toggle_user_activation,
 )
 from typing import List
+import time
 
 router = APIRouter()
 
@@ -73,3 +74,28 @@ def update(user_data: UserUpdate, db: Session = Depends(get_db)):
 @router.delete("/{id}/{status}")
 def delete_user(id: int, status: bool, db: Session = Depends(get_db)):
     return toggle_user_activation(id, status, db)
+    
+# Open endpoint for profile image upload
+from fastapi import File, UploadFile
+import os
+from app.models.user import User
+
+@router.post("/upload-profile-image/{user_id}")
+async def upload_profile_image(user_id: int, file: UploadFile = File(...), db: Session = Depends(get_db)):
+    # Ensure uploads/profile_pics exists
+    upload_dir = os.path.join(os.getcwd(), "uploads", "profile_pics")
+    os.makedirs(upload_dir, exist_ok=True)
+    # Save file
+    file_ext = os.path.splitext(file.filename)[1]
+    file_name = f"user_{user_id}_{int(time.time())}{file_ext}"
+    file_path = os.path.join(upload_dir, file_name)
+    with open(file_path, "wb") as image:
+        content = await file.read()
+        image.write(content)
+    # Update user profile_image field
+    user = db.query(User).filter(User.id == user_id).first()
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    user.profile_image = f"uploads/profile_pics/{file_name}"
+    db.commit()
+    return {"profile_image": user.profile_image}
