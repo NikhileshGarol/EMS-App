@@ -108,7 +108,3 @@ This project is licensed under the MIT License.
 For issues, please open a [GitHub Issue](https://github.com/NikhileshGarol/EMS-App/issues).
 
 ---
-
-## Authors
-- Nikhilesh Garol
-- Contributors
