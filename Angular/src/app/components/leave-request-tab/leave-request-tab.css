@@ -51,3 +51,20 @@ p {
     font-weight: normal;
     text-transform: capitalize;
 }
+
+.filter-btn {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+  gap: 10px;
+}
+
+.active {
+  background-color: rgb(102, 161, 212);
+  color: white;
+}
+
+.inactive {
+  background-color: white;
+  border: 1px solid black;
+}

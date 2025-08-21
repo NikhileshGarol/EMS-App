@@ -1,13 +1,13 @@
 import { Component, inject, OnInit, ViewChild } from '@angular/core';
 import { LeaveServices } from '../../services/leave/leave-services';
 import { Auth } from '../../services/auth';
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { ConfirmationModal } from "../confirmation-modal/confirmation-modal";
 import { ToastServices } from '../../services/toast/toast-services';
 
 @Component({
   selector: 'app-leave-request-tab',
-  imports: [DatePipe, ConfirmationModal],
+  imports: [DatePipe, ConfirmationModal, CommonModule],
   templateUrl: './leave-request-tab.html',
   styleUrl: './leave-request-tab.css',
 })
@@ -23,6 +23,7 @@ export class LeaveRequestTab implements OnInit {
   selectedLeaveId: number | 0 = 0;
   leaveStatus: string | '' = '';
   confirmationMessage: string | '' = '';
+  selectedFilter: string = 'all'; //Default filter
 
   ngOnInit(): void {
     //API Get All Leaves
@@ -122,5 +123,19 @@ export class LeaveRequestTab implements OnInit {
     } else {
       this.handleRejectLeave(this.selectedLeaveId);
     }
+  }
+  pendingLeaveRequest() {
+    this.selectedFilter = 'pending';
+    this.allLeaveRequests = this.allLeaveRequests.filter(leave => leave.status === 'pending');
+    if (this.allLeaveRequests.length === 0) {
+      this.toast.info('No pending leave requests found.');
+    }
+  }
+
+  allLeaveRequest() {
+    this.selectedFilter = 'all';
+    this.fetchAllLeaves();
+    this.activePanelId = null;
+    this.selectedLeaveId = 0;
   }
 }

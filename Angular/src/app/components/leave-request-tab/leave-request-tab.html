@@ -1,63 +1,74 @@
-<div class="history-container">
-    @for (item of allLeaveRequests; track $index) {
-    <div style="margin-bottom: 10px;" class="accordion" [attr.id]="item.leaveId">
-        <div class="accordion-item">
-            <h2 class="accordion-header">
-                <button class="accordion-button button-style" [class.collapsed]="!isPanelOpen(item.id)"
-                    (click)="togglePanel(item.id)" [attr.aria-expanded]="isPanelOpen(item.id)"
-                    [attr.aria-controls]="'collapse-' + item.id">
-                    <div class="col-3" style="padding: 0px; margin: 0px;">
-                        <h6>Category</h6>
-                        <p>Leave</p>
-                    </div>
-                    <div class="col-3">
-                        <h6>Leave Type</h6>
-                        <p>{{item?.leaveType}}</p>
-                    </div>
-                    <div class="col-3">
-                        <h6>No. of days</h6>
-                        <p>{{item?.daysApplied}}</p>
-                    </div>
-                    <div class="col-3">
-                        <h6>Status</h6>
-                        <p class="{{ item?.status === 'approved' ? 'text-green' : item?.status === 'rejected' ? 'text-red': 'text-pending' }}">
-                            {{item?.status === 'approved' ? 'Approved' : item?.status === 'rejected' ? 'Rejected' : 'Pending' }}<br />
-                        <body style="background-color: inherit;">{{item?.approvedAt | date:'dd MMM yyyy'}}</body></p>
-                    </div>
-                </button>
-            </h2>
-            <div class="accordion-collapse collapse" [class.show]="isPanelOpen(item.id)"
-                [attr.id]="'collapse-' + item.id" [attr.aria-labelledby]="'heading-' + item.id"
-                aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    <div class="col-12">
-                        <h6>Employee ID: <span class="span">{{item?.userId}}</span></h6>
-                        <h6>Employee Name: <span class="span">{{item?.userName}}</span></h6>
-                        <h6>Duration: <span class="span">{{item?.startDate | date: 'dd MMM yyyy'}} - {{item?.endDate | date: 'dd MMM yyyy'}}</span>
-                        </h6>
-                        <h6>Reason: <span class="span">{{item?.reason}}</span></h6>
-                    </div>
-                    @if (item?.status === 'pending') {
-                    <div style="display: inline-flex; justify-content: flex-end; gap: 10px;" class="col-12">
+<div class="div">
+    <div class="col-12 filter-btn">
+        <button class="btn" [ngClass]="{ 'btn-yes' : selectedFilter === 'all', 'inactive' : selectedFilter !== 'all' }"
+            (click)="allLeaveRequest()">All Requests</button>
+        <button class="btn btn-yes"
+            [ngClass]="{ 'btn-yes' : selectedFilter === 'pending', 'inactive' : selectedFilter !== 'pending' }"
+            (click)="pendingLeaveRequest()">Pending Requests</button>
+    </div>
+    <div class="history-container">
+        @for (item of allLeaveRequests; track $index) {
+        <div style="margin-bottom: 10px;" class="accordion" [attr.id]="item.leaveId">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button button-style" [class.collapsed]="!isPanelOpen(item.id)"
+                        (click)="togglePanel(item.id)" [attr.aria-expanded]="isPanelOpen(item.id)"
+                        [attr.aria-controls]="'collapse-' + item.id">
+                        <div class="col-3" style="padding: 0px; margin: 0px;">
+                            <h6>Category</h6>
+                            <p>Leave</p>
+                        </div>
+                        <div class="col-3">
+                            <h6>Leave Type</h6>
+                            <p>{{item?.leaveType}}</p>
+                        </div>
+                        <div class="col-3">
+                            <h6>No. of days</h6>
+                            <p>{{item?.daysApplied}}</p>
+                        </div>
+                        <div class="col-3">
+                            <h6>Status</h6>
+                            <p
+                                class="{{ item?.status === 'approved' ? 'text-green' : item?.status === 'rejected' ? 'text-red': 'text-pending' }}">
+                                {{item?.status === 'approved' ? 'Approved' : item?.status === 'rejected' ? 'Rejected' :
+                                'Pending' }}<br />
+
+                                <body style="background-color: inherit;">{{item?.approvedAt | date:'dd MMM yyyy'}}
+                                </body>
+                            </p>
+                        </div>
+                    </button>
+                </h2>
+                <div class="accordion-collapse collapse" [class.show]="isPanelOpen(item.id)"
+                    [attr.id]="'collapse-' + item.id" [attr.aria-labelledby]="'heading-' + item.id"
+                    aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <div class="col-12">
+                            <h6>Employee ID: <span class="span">{{item?.userId}}</span></h6>
+                            <h6>Employee Name: <span class="span">{{item?.userName}}</span></h6>
+                            <h6>Duration: <span class="span">{{item?.startDate | date: 'dd MMM yyyy'}} - {{item?.endDate
+                                    | date: 'dd MMM yyyy'}}</span>
+                            </h6>
+                            <h6>Reason: <span class="span">{{item?.reason}}</span></h6>
+                        </div>
+                        @if (item?.status === 'pending') {
+                        <div style="display: inline-flex; justify-content: flex-end; gap: 10px;" class="col-12">
                             <button (click)="handleApprove(item?.id)" type="button" class="btn btn-yes">Approve</button>
-                            <button (click)="handleReject(item?.id)" type="button" class="btn btn-secondary">Reject</button>
+                            <button (click)="handleReject(item?.id)" type="button"
+                                class="btn btn-secondary">Reject</button>
+                        </div>
+                        }
                     </div>
-                    }
                 </div>
             </div>
         </div>
+        }
+        @if (!allLeaveRequests) {
+        <div class="col-12" style="display: flex; justify-content: center; align-items: center;">No Data Available</div>
+        }
+
+        <app-confirmation-modal #confirmModal [title]="'Confirmation'" [message]="confirmationMessage"
+            [confirmText]="'Yes'" [cancelText]="'No'" (confirmed)="onConfirm()">
+        </app-confirmation-modal>
     </div>
-    }
-    @if (!allLeaveRequests) {
-    <div class="col-12" style="display: flex; justify-content: center; align-items: center;">No Data Available</div>
-    }
-    
-    <app-confirmation-modal 
-    #confirmModal 
-    [title]="'Confirmation'" 
-    [message]="confirmationMessage"
-    [confirmText]="'Yes'"
-    [cancelText]="'No'" 
-    (confirmed)="onConfirm()">
-    </app-confirmation-modal>
-    </div>
+</div>
